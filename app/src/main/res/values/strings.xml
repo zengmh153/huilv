@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">huilv</string>
+    <string name="input_hint">Iput RMB</string>
+    <string name="btn_dollar">DOllAR</string>
+    <string name="btn_euro">EURO</string>
+    <string name="btn_won">WON</string>
+    <string name="result">Hello</string>
+</resources>
