@@ -5,4 +5,7 @@
     <string name="btn_euro">EURO</string>
     <string name="btn_won">WON</string>
     <string name="result">Hello</string>
+    <string name="dollarRate">0.1503</string>
+    <string name="euroRate">0.1266</string>
+    <string name="wonRate">170.2708</string>
 </resources>
