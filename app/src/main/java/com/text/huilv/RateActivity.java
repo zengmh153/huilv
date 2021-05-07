@@ -58,9 +58,11 @@ public class RateActivity extends AppCompatActivity implements  Runnable {
             @Override
             public void handleMessage(@Nullable Message msg) {
                 if (msg.what == 6) {
-                    String str = (String) msg.obj;
-                    //Log.i(TAG, "handleMessage: str=" + str);
-                    result_.setText(str);
+                    Bundle bdl1 = (Bundle) msg.obj;
+                    dollarRate=bdl1.getFloat("dollar-rate");
+                    euroRate=bdl1.getFloat("euro-rate");
+                    wonRate=bdl1.getFloat("won-rate");
+                    Log.i(TAG, "handleMessage: dollerrate"+dollarRate);
                     Toast.makeText(RateActivity.this,"数据已更新",Toast.LENGTH_SHORT).show();
                 }
                 super.handleMessage(msg);
@@ -158,41 +160,42 @@ public class RateActivity extends AppCompatActivity implements  Runnable {
         Element pngs=doc.select("");
         Element masthead=doc.select("").first();
         Element resultLinks =doc.select();*/
-        try{ Document doc = Jsoup.connect("http://www.usd-cny.com/bankofchina.htm").get();
-            //Log.i(TAG, "run: title="+doc.title());
-            Elements tables=doc.getElementsByTag("table");
-            Element table=tables.first();
-            //Element table1=doc.getElementsByTag("table").first();等于上面两行
-            Elements trs=table.getElementsByTag("tr");
-            /*for (Element td : tds){
-                Log.i(TAG, "run: td="+td);
-                Log.i(TAG, "run: td.text"+td.text());
-                Log.i(TAG, "run: td.html"+td.html());
-            }*/
-            for (Element tr : trs){
-                Elements tds=tr.getElementsByTag("tr");
-                if(tds.size()>0){
-                        String strs=tds.get(0).text();
-                        String val=tds.get(5).text();
-                        Log.i(TAG, "run: val"+val);
-                        Log.i(TAG, "run: str"+strs);
+        Bundle bundle =new Bundle();
 
-                    }
+        try {
+            Document doc = Jsoup.connect("https://www.usd-cny.com/bankofchina.htm").get();
+            Log.i("a","run:title="+ doc.title());
+            Element table1= doc.getElementsByTag("table").first();
+            Elements tds = table1.getElementsByTag("td");
+            for(int i = 0 ;i <tds.size(); i+=6){
+                Element td1 = tds.get(i);
+                Element td2=tds.get(i+5);
+                Log.i("a",td1.text()+"=>"+td2.text());
+                String str1=td1.text();
+                String val= td2.text();
+                if("美元".equals(str1)){
+                    bundle.putFloat("dollar-rate",100/Float.parseFloat(val));
+                } else if("欧元".equals(str1)){
+                    bundle.putFloat("euro-rate",100/Float.parseFloat(val));
+                } else if("韩元".equals(str1)){
+                    bundle.putFloat("won-rate",100/Float.parseFloat(val));
+                }
 
             }
-            Elements e1=doc.select("body > section > div > div > article > table > tbody > tr:nth-child(8) > td:nth-child(2)");
-            Elements e2=doc.select("body > section > div > div > article > table > tbody > tr:nth-child(27) > td:nth-child(2)");
-            Log.i(TAG, "run11: 美元="+e2);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e("a","run:"+e.toString());
+        }
+            //Elements e1=doc.select("body > section > div > div > article > table > tbody > tr:nth-child(23) > td:nth-child(2)");
+            //Elements e2=doc.select("body > section > div > div > article > table > tbody > tr:nth-child(15) > td:nth-child(2)");
+
            /* Elements class1=table1.getElementsByClass("bz");
             for (Element td : class1){
                 Log.i(TAG, "run: td="+td);
             }*/
-        }catch (IOException e){
-            e.printStackTrace();
-            Log.i(TAG, "run: "+e.toString());
-        }
 
-            Message msg = handler.obtainMessage(6, "gkd");
+
+            Message msg = handler.obtainMessage(6, bundle);
             //msg.what=6;
             //msg.obj="Hello from run()";
             handler.sendMessage(msg);
