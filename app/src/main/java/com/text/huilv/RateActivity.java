@@ -21,6 +21,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -58,7 +59,7 @@ public class RateActivity extends AppCompatActivity implements  Runnable {
             public void handleMessage(@Nullable Message msg) {
                 if (msg.what == 6) {
                     String str = (String) msg.obj;
-                    Log.i(TAG, "handleMessage: str=" + str);
+                    //Log.i(TAG, "handleMessage: str=" + str);
                     result_.setText(str);
                     Toast.makeText(RateActivity.this,"数据已更新",Toast.LENGTH_SHORT).show();
                 }
@@ -77,7 +78,7 @@ public class RateActivity extends AppCompatActivity implements  Runnable {
             float r = 0.1f;
             double R1 = 0;
             result_.setText(String.valueOf(btn.getId()));
-            Log.i(TAG, "click: btn.getid()" + btn.getId());
+           // Log.i(TAG, "click: btn.getid()" + btn.getId());
 
             if (btn.getId() == R.id.btn_dollar) {
                 r = dollarRate;
@@ -98,9 +99,9 @@ public class RateActivity extends AppCompatActivity implements  Runnable {
         config.putExtra("dollar_key", dollarRate);
         config.putExtra("euro_key", euroRate);
         config.putExtra("won_key", wonRate);
-        Log.i(TAG, "onCreate: dollarRate=" + dollarRate);
-        Log.i(TAG, "onCreate: euroRate=" + euroRate);
-        Log.i(TAG, "onCreate: wonRate=" + wonRate);
+        //Log.i(TAG, "onCreate: dollarRate=" + dollarRate);
+        //Log.i(TAG, "onCreate: euroRate=" + euroRate);
+       // Log.i(TAG, "onCreate: wonRate=" + wonRate);
 
         startActivityForResult(config, 1);
     }
@@ -108,14 +109,14 @@ public class RateActivity extends AppCompatActivity implements  Runnable {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.i(TAG, "onActivityResult: dollar" + requestCode);
-        Log.i(TAG, "onActivityResult: dollar1" + resultCode);
+        //Log.i(TAG, "onActivityResult: dollar" + requestCode);
+        //Log.i(TAG, "onActivityResult: dollar1" + resultCode);
         if (requestCode == 1 && resultCode == 2) {
             Bundle bundle = data.getExtras();
             dollarRate = bundle.getFloat("key_dollar", 0.1f);
             euroRate = bundle.getFloat("key_euro", 0.1f);
             wonRate = bundle.getFloat("key_won", 0.1f);
-            Log.i(TAG, "onActivityResult: doller3" + dollarRate);
+            //Log.i(TAG, "onActivityResult: doller3" + dollarRate);
             SharedPreferences sp = getSharedPreferences("myrate", Activity.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
             editor.putFloat("dollar_rate", dollarRate);
@@ -130,7 +131,7 @@ public class RateActivity extends AppCompatActivity implements  Runnable {
 
     @Override
     public void run() {
-        Log.i(TAG, "run: run.....");
+        //Log.i(TAG, "run: run.....");
         /*try {
             Thread.sleep(3000);
         }catch (InterruptedException e){
@@ -150,18 +151,38 @@ public class RateActivity extends AppCompatActivity implements  Runnable {
             e.printStackTrace();
             Log.i(TAG, "run: ex="+e.toString());
         }*/
-        try{
-            Document doc = Jsoup.connect("http://www.usd-cny.com/bankofchina.htm").get();
-            Log.i(TAG, "run: title="+doc.title());
+
+        /*        File input =new File("/tmp/input.html");
+        Document doc =Jsoup.parse(input,"","");
+        Element links = doc.select("");
+        Element pngs=doc.select("");
+        Element masthead=doc.select("").first();
+        Element resultLinks =doc.select();*/
+        try{ Document doc = Jsoup.connect("http://www.usd-cny.com/bankofchina.htm").get();
+            //Log.i(TAG, "run: title="+doc.title());
             Elements tables=doc.getElementsByTag("table");
-            Element table1=tables.first();
+            Element table=tables.first();
             //Element table1=doc.getElementsByTag("table").first();等于上面两行
-            Elements tds=table1.getElementsByTag("td");
-            for (Element td : tds){
+            Elements trs=table.getElementsByTag("tr");
+            /*for (Element td : tds){
                 Log.i(TAG, "run: td="+td);
                 Log.i(TAG, "run: td.text"+td.text());
                 Log.i(TAG, "run: td.html"+td.html());
+            }*/
+            for (Element tr : trs){
+                Elements tds=tr.getElementsByTag("tr");
+                if(tds.size()>0){
+                        String strs=tds.get(0).text();
+                        String val=tds.get(5).text();
+                        Log.i(TAG, "run: val"+val);
+                        Log.i(TAG, "run: str"+strs);
+
+                    }
+
             }
+            Elements e1=doc.select("body > section > div > div > article > table > tbody > tr:nth-child(8) > td:nth-child(2)");
+            Elements e2=doc.select("body > section > div > div > article > table > tbody > tr:nth-child(27) > td:nth-child(2)");
+            Log.i(TAG, "run11: 美元="+e2);
            /* Elements class1=table1.getElementsByClass("bz");
             for (Element td : class1){
                 Log.i(TAG, "run: td="+td);
