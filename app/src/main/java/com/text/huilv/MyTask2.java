@@ -11,9 +11,10 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class MyTask implements Runnable {
+public class MyTask2 implements Runnable {
     private static final String TAG = "MyTask";
     Handler handler;
 
@@ -23,9 +24,9 @@ public class MyTask implements Runnable {
 
     @Override
     public void run() {
-        List<String> ret = new ArrayList<String>();
+        ArrayList<HashMap<String,String>> listItems=new ArrayList<HashMap<String,String>>();
         try {
-            Thread.sleep(300);
+            Thread.sleep(500);
             Document doc = Jsoup.connect(" https://www.boc.cn/sourcedb/whpj/ ").get();
 
             Element table = doc.getElementsByTag("table").get(1);
@@ -36,12 +37,15 @@ public class MyTask implements Runnable {
                 Element td2=trs.get(i+5);
                 String a=td1.text();
                 String b=td2.text();
-                ret.add(a + "->"+ b);}
+                HashMap<String,String> map=new HashMap<String, String>();
+                map.put("ItemTitle",a);
+                map.put("ItemDetail",b);
+                listItems.add(map);}
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             Log.e(TAG, "run:" + e.toString());
         }
-        Message msg = handler.obtainMessage(8, ret);
+        Message msg = handler.obtainMessage(9, listItems);
         handler.sendMessage(msg);
     }
 }
