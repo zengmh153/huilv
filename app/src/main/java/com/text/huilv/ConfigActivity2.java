@@ -13,12 +13,14 @@ import android.widget.Toast;
 public class ConfigActivity2 extends AppCompatActivity {
     private static final String TAG = "ConfigActivity2";
     EditText inputrmb;
+    TextView result;
     public float Rate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config2);
         inputrmb = findViewById(R.id.inputrmb);
+        result = findViewById(R.id.result3);
         Intent intent=getIntent();
         Rate=intent.getFloatExtra("Rate-key",0.0f);
         Log.i(TAG, "onCreate: Rate="+Rate);
@@ -32,11 +34,11 @@ public class ConfigActivity2 extends AppCompatActivity {
         if (str.length() == 0) {
             Toast.makeText(this, "请输入计算的金额", Toast.LENGTH_SHORT).show();
         } else {
-            R1=Rate*M;
+            R1=(100/Rate)*M;
             Log.i(TAG, "onclick: R1="+R1);
             Log.i(TAG, "onclick: Rate="+Rate);
             Log.i(TAG, "onclick: M="+M);
-            inputrmb.setText(String.format("%.2f", R1));
+            result.setText(String.format("%.2f", R1));
         }
     }
     }

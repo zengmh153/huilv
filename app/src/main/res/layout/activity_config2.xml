@@ -23,9 +23,32 @@
         android:id="@+id/determine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:onClick="onclick"
         android:text="determine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/result3" />
+
+    <TextView
+        android:id="@+id/bizhong"
+        android:layout_width="186dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="30dp"
+        android:text="TextView"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/result3"
+        android:layout_width="139dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="20dp"
+        android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputrmb" />
