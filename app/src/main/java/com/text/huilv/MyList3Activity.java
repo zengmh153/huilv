@@ -1,8 +1,10 @@
 package com.text.huilv;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,9 +23,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MyList3Activity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MyList3Activity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
     private static final String TAG = "MyList3Activity";
     ListView listView;
+    MyAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +62,7 @@ public class MyList3Activity extends AppCompatActivity implements AdapterView.On
                             new int[]{R.id.itemTitle,R.id.itemDetail}
                             );*/
 
-                    MyAdapter adapter = new MyAdapter(MyList3Activity.this,R.layout.list_item,retList);
+                    adapter = new MyAdapter(MyList3Activity.this,R.layout.list_item,retList);
                     listView.setAdapter(adapter);
                     //切换显示
                     progressBar.setVisibility(View.GONE);
@@ -70,6 +73,7 @@ public class MyList3Activity extends AppCompatActivity implements AdapterView.On
         };
 
         listView.setOnItemClickListener(this);
+        listView.setOnItemLongClickListener(this);
 
         MyTask2 task=new MyTask2();
         task.setHandler(handler);
@@ -100,5 +104,24 @@ public class MyList3Activity extends AppCompatActivity implements AdapterView.On
         Log.i(TAG, "onItemClick: Str="+c);
         startActivityForResult(config, 10);
 
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        Log.i(TAG, "onItemLongClick: 长按事件处理position="+position);
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("提示")
+                .setMessage("是否删除数据")
+                .setPositiveButton("是",new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //删除内容
+                adapter.remove(listView.getItemAtPosition(position));
+            }
+        }).setNegativeButton("否",null);
+        builder.create().show();
+        return true;
     }
 }
