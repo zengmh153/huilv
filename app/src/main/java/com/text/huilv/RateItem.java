@@ -1,22 +1,36 @@
 package com.text.huilv;
 
 public class RateItem {
-    private String cname;
-    private String cval;
+    public int id;
+    private String curName;
+    private String curRate;
 
-    public String getCname() {
-        return cname;
+    public RateItem(String curName, String curRate) {
+        this.curName = curName;
+        this.curRate = curRate;
     }
 
-    public void setCname(String cname) {
-        this.cname = cname;
+    public int getId() {
+        return id;
     }
 
-    public String getCval() {
-        return cval;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setCval(String cval) {
-        this.cval = cval;
+    public String getCurName() {
+        return curName;
+    }
+
+    public void setCurName(String curName) {
+        this.curName = curName;
+    }
+
+    public String getCurRate() {
+        return curRate;
+    }
+
+    public void setCurRate(String curRate) {
+        this.curRate = curRate;
     }
 }

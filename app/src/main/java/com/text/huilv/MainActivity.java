@@ -3,12 +3,14 @@ package com.text.huilv;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.provider.Telephony;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+    private static final String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,5 +83,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+public void myclick(View v){
+    Log.i(TAG, "myclick: 33333333");
 
+    RateManager rateManager = new RateManager(this);
+    RateItem item = new RateItem("CNY","1122.3");
+    rateManager.add(item);
+
+}
 }
