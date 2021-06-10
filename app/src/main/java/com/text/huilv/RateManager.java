@@ -2,11 +2,13 @@ package com.text.huilv;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.Telephony;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 public class RateManager {
@@ -32,14 +34,17 @@ public class RateManager {
     public List<RateItem> listALL(){
         List<RateItem> ret = new ArrayList<RateItem>();
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues cursor = db.query(TBNAME,null,null,null,null,null,null)
+        Cursor cursor = db.query( TBNAME, null,null,null,null,null,null);
                 if(cursor!=null){
                     while (cursor.moveToNext()){
                         RateItem item = new RateItem();
-                        item.setId();
+                        item.setId(cursor.getInt(cursor.getColumnIndex("ID")));
+                        item.setCurName(cursor.getString(cursor.getColumnIndex("CURNAME")));
+                        item.setCurRate(cursor.getString(cursor.getColumnIndex("CURRATE")));
+                        ret.add(item);
                     }
+                    cursor.close();
                 }
-
         db.close();
         return  ret;
     }

@@ -104,7 +104,6 @@ public class RateActivity extends AppCompatActivity implements  Runnable {
         //Log.i(TAG, "onCreate: dollarRate=" + dollarRate);
         //Log.i(TAG, "onCreate: euroRate=" + euroRate);
        // Log.i(TAG, "onCreate: wonRate=" + wonRate);
-
         startActivityForResult(config, 1);
     }
 

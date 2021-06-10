@@ -5,7 +5,7 @@ public class RateItem {
     private String curName;
     private String curRate;
 
-    public RateItem(String curName, String curRate) {
+    public RateItem() {
         this.curName = curName;
         this.curRate = curRate;
     }

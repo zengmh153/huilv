@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = "MainActivity";
     @Override
@@ -87,8 +89,11 @@ public void myclick(View v){
     Log.i(TAG, "myclick: 33333333");
 
     RateManager rateManager = new RateManager(this);
-    RateItem item = new RateItem("CNY","1122.3");
-    rateManager.add(item);
+    List<RateItem> list = rateManager.listALL();
+    for(RateItem item : list){
+        Log.i(TAG, "myclick: item.id" + item.getId());
+        Log.i(TAG, "myclick: item.name" + item.getCurName());
+    }
 
 }
 }
