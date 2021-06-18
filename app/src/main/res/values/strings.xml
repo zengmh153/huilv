@@ -8,4 +8,6 @@
     <string name="dollarRate">0.1503</string>
     <string name="euroRate">0.1266</string>
     <string name="wonRate">170.2708</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
